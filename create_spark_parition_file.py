@@ -6,9 +6,9 @@ from pyspark.sql.window import Window
 
 spark = SparkSession.builder.appName("read and create parition file").master("local[*]").enableHiveSupport().getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
-df=spark.read.option("header",True).csv("/home/hartat/data/netflix_titles-orginal.csv")
+df=spark.read.option("header",True).csv("/home/hartat/data/input/netflix_titles-orginal.csv")
 print(df.rdd.getNumPartitions())
 df=df.repartition(10,"type")
 print(df.rdd.getNumPartitions())
-df.write.format("csv").option("header", "true").mode("overwrite").save("/home/hartat/data/netflix_titles-partition")
+df.write.format("csv").option("header", "true").mode("overwrite").save("/home/hartat/data/output/netflix_titles-partition")
 spark.stop()
