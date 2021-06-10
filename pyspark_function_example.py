@@ -9,7 +9,7 @@ spark = SparkSession.builder.appName("read and load from hive").master("local[1]
 spark.sparkContext.setLogLevel("ERROR")
 
 def main():
-    data=extract_data("/home/hartat/data/input/netflix_titles-partition")
+    data=extract_data("/home/hartat/data/output/netflix_titles-partition")
     transform_data,country_count=transform(data)
     load_data(transform_data,country_count)
 
@@ -24,8 +24,8 @@ def transform(df):
     return transform_data,country_count
 
 def load_data(transform_data,country_count):
-    transform_data.write.format("csv").option("header", "true").mode("overwrite").save("/home/hartat/data/output/2020_country')
-    country_count.repartition(1).write.format("csv").option("header", "true").mode("overwrite").save("/home/hartat/data/output/2020_country_count')
+    transform_data.write.format("csv").option("header", "true").mode("overwrite").save("/home/hartat/data/output/2020_country")
+    country_count.repartition(1).write.format("csv").option("header", "true").mode("overwrite").save("/home/hartat/data/output/2020_country_count")
 
 if __name__ == '__main__':
     main()
